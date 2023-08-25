@@ -6,12 +6,15 @@ function modalDismiss(modalName){
     let modal = bootstrap.Modal.getInstance(document.querySelector(modalName))
     modal.hide();
 }
+function disabledAddTeam(){
+    let buttonadd = document.querySelector('#addNewTeam').classList.add('disabled')
+}
 
 // submeter formulario de adicionar um novo time 
 function submitFormAddTeam(){
     if(localStorage.getItem('index') >= 4){
         modalDismiss('#modalAddTeam');
-        let buttonadd = document.querySelector('#addNewTeam').classList.add('disabled')
+        disabledAddTeam();
     }else{
         let index;
         localStorage.getItem('index') == null 
@@ -24,6 +27,9 @@ function submitFormAddTeam(){
                                                      "cor" : color}) ); 
         index++;
         localStorage.setItem('index',index);
+        if(index == 4){
+            disabledAddTeam()
+        }
         form = document.querySelector('#formAddTeam');
         form.reset();
         modalDismiss('#modalAddTeam');
@@ -66,5 +72,10 @@ function rebuildteams(teams){
 
 function clearLocalStorage(){
     localStorage.clear();
-    main.dispatchEvent(reloadPage);
+    location.reload()
+}
+
+main.dispatchEvent(reloadPage);
+if(localStorage.getItem('index') >= 4){
+    disabledAddTeam()
 }
