@@ -6,6 +6,8 @@ function modalDismiss(modalName) {
   let modal = bootstrap.Modal.getInstance(document.querySelector(modalName));
   modal.hide();
 }
+
+// desabilita o botão de adicionar times
 function disabledAddTeam() {
   let buttonadd = document
     .querySelector("#addNewTeam")
@@ -38,6 +40,26 @@ function submitFormAddTeam() {
   }
 }
 
+// função para contruir os times
+function rebuildteams(teams) {
+    console.log(teams);
+    for (let i = 0; i < teams.length; i++) {
+      let teamElement = document.querySelector(`#time${i}`);
+      teamElement.style.color = "#FFFF";
+      let nameTeam = teamElement.querySelector("#nameTeam");
+      let colorTeam = teamElement.querySelector("#colorTeam");
+      let props = JSON.parse(teams[i]);
+      nameTeam.textContent = props.nome;
+      colorTeam.style = `background:${props.cor}`;
+    }
+  }
+
+//Limpa o armazenamento local e recarrega a pagina   
+function clearLocalStorage() {
+    localStorage.clear();
+    location.reload();
+  }
+
 // construir um evento para atualizar a pagina
 mainContent.addEventListener(
   "reload",
@@ -53,25 +75,6 @@ mainContent.addEventListener(
   },
   false
 );
-
-// função para contruir os times
-function rebuildteams(teams) {
-  console.log(teams);
-  for (let i = 0; i < teams.length; i++) {
-    let teamElement = document.querySelector(`#time${i}`);
-    teamElement.style.color = "#FFFF";
-    let nameTeam = teamElement.querySelector("#nameTeam");
-    let colorTeam = teamElement.querySelector("#colorTeam");
-    let props = JSON.parse(teams[i]);
-    nameTeam.textContent = props.nome;
-    colorTeam.style = `background:${props.cor}`;
-  }
-}
-
-function clearLocalStorage() {
-  localStorage.clear();
-  location.reload();
-}
 
 // conteudo principal
 main.dispatchEvent(reloadPage);
